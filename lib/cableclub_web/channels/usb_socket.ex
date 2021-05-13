@@ -1,4 +1,4 @@
-defmodule CableClubWeb.UserSocket do
+defmodule CableClubWeb.USBSocket do
   use Phoenix.Socket
 
   ## Channels

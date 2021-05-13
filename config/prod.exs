@@ -24,17 +24,17 @@ database_url =
     For example: ecto://USER:PASS@HOST/DATABASE
     """
 
-# discord_client_id =
-#   System.get_env("DISCORD_CLIENT_ID") ||
-#     raise """
-#     environment variable DISCORD_CLIENT_ID is missing.
-#     """
+discord_client_id =
+  System.get_env("DISCORD_CLIENT_ID") ||
+    raise """
+    environment variable DISCORD_CLIENT_ID is missing.
+    """
 
-# discord_client_secret =
-#   System.get_env("DISCORD_CLIENT_SECRET") ||
-#     raise """
-#     environment variable DISCORD_CLIENT_SECRET is missing.
-#     """
+discord_client_secret =
+  System.get_env("DISCORD_CLIENT_SECRET") ||
+    raise """
+    environment variable DISCORD_CLIENT_SECRET is missing.
+    """
 
 config :cableclub, CableClubWeb.Endpoint,
   url: [scheme: "https", host: "cableclub.link", port: 443],
@@ -56,7 +56,7 @@ config :cableclub, CableClub.Repo,
   url: database_url,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
-# config :cableclub, CableClubWeb.OAuth.Discord,
-#   url: "https://cableclub.link/oauth/discord",
-#   client_id: discord_client_id,
-#   client_secret: discord_client_secret
+config :cableclub, CableClubWeb.OAuth.Discord,
+  url: "https://cableclub.link/oauth/discord",
+  client_id: discord_client_id,
+  client_secret: discord_client_secret

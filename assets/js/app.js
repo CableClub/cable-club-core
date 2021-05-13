@@ -73,3 +73,6 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+
+let usbsocket = new Socket("/usb");
+usbsocket.connect();

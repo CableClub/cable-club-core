@@ -60,6 +60,8 @@ defmodule CableClub.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:ring_logger, "~> 0.8.1"},
+      {:tesla, "~> 1.4"},
+      {:hackney, "~> 1.17"},
       {:phx_gen_auth, "~> 0.7.0", only: :dev}
     ]
   end

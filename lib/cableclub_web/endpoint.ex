@@ -10,7 +10,7 @@ defmodule CableClubWeb.Endpoint do
     signing_salt: "HQu+Flmt"
   ]
 
-  socket "/socket", CableClubWeb.UserSocket,
+  socket "/usb", CableClubWeb.USBSocket,
     websocket: true,
     longpoll: false
 

@@ -74,5 +74,7 @@ defmodule CableClubWeb.Router do
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :confirm
+    get "/oauth/discord", OAuth.DiscordController, :oauth
+    get "/oauth/discord/tos", OAuth.DiscordController, :tos
   end
 end

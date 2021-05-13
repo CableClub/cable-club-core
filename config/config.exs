@@ -27,6 +27,16 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+if discord_client_id = System.get_env("DISCORD_CLIENT_ID") do
+  config :cableclub, CableClubWeb.OAuth.Discord, client_id: discord_client_id
+end
+
+if discord_client_secret = System.get_env("DISCORD_CLIENT_SECRET") do
+  config :cableclub, CableClubWeb.OAuth.Discord, client_secret: discord_client_secret
+end
+
+config :cableclub, CableClubWeb.OAuth.Discord, url: "http://localhost:4000/oauth/discord"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
