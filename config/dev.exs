@@ -26,6 +26,7 @@ config :cableclub, CableClubWeb.Endpoint,
       "--mode",
       "development",
       "--watch-stdin",
+      "--color",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]

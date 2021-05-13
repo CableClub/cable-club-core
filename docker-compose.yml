@@ -1,0 +1,25 @@
+version: '3.2'
+services:
+  db:
+    image: postgres:12
+    restart: always
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  app:
+    build: .
+    image: "registry.sixtyeightplus.one/cableclub"
+    # volumes:
+      # - ./photos:/photos
+    depends_on:
+      - 'db'
+    ports:
+      - "4031:4000"
+      - "4030:4369"
+      - "4230:4230"
+    hostname: "cableclub.link"
+    environment:
+      RELEASE_DISTRIBUTION: "name"
+      RELEASE_NODE: "cableclub@cableclub.link"

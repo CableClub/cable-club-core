@@ -1,8 +1,9 @@
 FROM alpine:latest AS app_base
 WORKDIR /app
-RUN apk add --no-cache openssl ncurses-libs bash chromium-chromedriver chromium python3 py3-pip
-RUN pip3 install -U selenium
-RUN pip3 install -U erlang-py
+RUN apk add --no-cache openssl ncurses-libs bash
+# RUN apk add --no-cache openssl ncurses-libs bash chromium-chromedriver chromium python3 py3-pip
+# RUN pip3 install -U selenium
+# RUN pip3 install -U erlang-py
 
 FROM erlang:23.2.7-alpine as build
 ENV ELIXIR_VERSION="v1.11.1-otp-23"
@@ -64,9 +65,9 @@ RUN mix phx.digest
 RUN mix release --overwrite
 
 FROM app_base as app
-COPY --from=release --chown=nobody:nobody /app/_build/prod/rel/partpicker ./
+COPY --from=release --chown=nobody:nobody /app/_build/prod/rel/cableclub ./
 RUN chown nobody:nobody /app
 
 USER nobody:nobody
 ENV HOME=/app
-ENTRYPOINT ["bin/partpicker", "start"]
+ENTRYPOINT ["bin/cableclub", "start"]
