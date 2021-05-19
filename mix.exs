@@ -62,7 +62,9 @@ defmodule CableClub.MixProject do
       {:ring_logger, "~> 0.8.1"},
       {:tesla, "~> 1.4"},
       {:hackney, "~> 1.17"},
-      {:phx_gen_auth, "~> 0.7.0", only: :dev}
+      {:phx_gen_auth, "~> 0.7.0", only: :dev},
+      {:tortoise, "~> 0.9.8"},
+      {:circuits_uart, "~> 1.4"}
     ]
   end
 

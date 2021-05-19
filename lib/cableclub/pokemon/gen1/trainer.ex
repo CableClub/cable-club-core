@@ -4,7 +4,8 @@ defmodule CableClub.Pokemon.Gen1.Trainer do
 
   schema "pokemon_gen1_trainers" do
     belongs_to :user, CableClub.Accounts.User
-    field :name, :binary, null: false
+    field :nickname, :binary, null: false
     field :trainer_id, :binary, null: false
+    timestamps()
   end
 end
