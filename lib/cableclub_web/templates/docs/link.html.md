@@ -1,4 +1,4 @@
-# Pokemon Gen 1 Trade Center Protocol
+# Pokemon Gen 1 Link Protocol
 
 This document describes the trade protocol as I currently understand.
 It may not be completley corerect. if you spot a discrepency, feel free to
@@ -14,7 +14,7 @@ as follows:
 
 In Assembly:
 
-```asm
+```rgbds
 ; serial_constans.asm
 LINK_STATE_NONE          EQU $00 ; not using link
 LINK_STATE_IN_CABLE_CLUB EQU $01 ; in a cable club room (Colosseum or Trade Centre)
@@ -43,7 +43,7 @@ typedef enum {
 
 The following values are important constant values to keep in mind:
 
-```asm
+```rgbds
 ; serial_constants.asm
 ESTABLISH_CONNECTION_WITH_INTERNAL_CLOCK EQU $01
 ESTABLISH_CONNECTION_WITH_EXTERNAL_CLOCK EQU $02

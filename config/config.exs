@@ -26,6 +26,7 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+config :phoenix, :template_engines, md: PhoenixMarkdown.Engine
 
 if discord_client_id = System.get_env("DISCORD_CLIENT_ID") do
   config :cableclub, CableClubWeb.OAuth.Discord, client_id: discord_client_id

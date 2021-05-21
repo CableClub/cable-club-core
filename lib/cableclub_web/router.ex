@@ -21,6 +21,7 @@ defmodule CableClubWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    get "/docs/pokemon/gen1/link", DocsController, :pokemon_gen1_link
   end
 
   # Other scopes may use custom stacks.

@@ -62,7 +62,7 @@ config :cableclub, CableClubWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/cableclub_web/(live|views)/.*(ex)$",
-      ~r"lib/cableclub_web/templates/.*(eex)$"
+      ~r"lib/cableclub_web/templates/.*(eex|md)$"
     ]
   ]
 
