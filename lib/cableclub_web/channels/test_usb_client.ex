@@ -57,12 +57,8 @@ defmodule CableClubWeb.TestUSBClient do
   end
 
   @impl Slipstream
-  def handle_message(@topic, event, message, socket) do
-    Logger.error(
-      "Was not expecting a push from the server. Heard: " <>
-        inspect({@topic, event, message})
-    )
-
+  def handle_message(@topic, "exchange_byte", %{"data" => byte}, socket) do
+    :ok = UART.write(socket.assigns.uart, <<byte>>)
     {:ok, socket}
   end
 
@@ -73,8 +69,7 @@ defmodule CableClubWeb.TestUSBClient do
 
   @impl Slipstream
   def handle_info({:circuits_uart, _tty, <<data>>}, socket) do
-    {:ok, result} = push!(socket, @topic, "exchange_byte", %{data: data}) |> await_reply()
-    :ok = UART.write(socket.assigns.uart, result["data"])
-    {:ok, socket}
+    push!(socket, @topic, "exchange_byte", %{data: data})
+    {:noreply, socket}
   end
 end
