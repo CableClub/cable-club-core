@@ -68,7 +68,9 @@ defmodule CableClub.MixProject do
       {:binpp, "~> 1.1"},
       {:phoenix_markdown, "~> 1.0"},
       {:earmark, "~> 1.4"},
-      {:html_entities, "~> 0.5.2"}
+      {:html_entities, "~> 0.5.2"},
+      {:slipstream, "~> 0.5"},
+      {:cowlib, "~> 2.11", override: true}
     ]
   end
 

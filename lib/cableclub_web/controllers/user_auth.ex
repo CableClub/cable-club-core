@@ -3,7 +3,6 @@ defmodule CableClubWeb.UserAuth do
   import Phoenix.Controller
 
   alias CableClub.Accounts
-  alias CableClubWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -91,7 +90,10 @@ defmodule CableClubWeb.UserAuth do
   def fetch_current_user(conn, _opts) do
     {user_token, conn} = ensure_user_token(conn)
     user = user_token && Accounts.get_user_by_session_token(user_token)
-    assign(conn, :current_user, user)
+
+    conn
+    |> assign(:current_user, user)
+    |> put_session(:current_user, user)
   end
 
   defp ensure_user_token(conn) do
@@ -134,7 +136,7 @@ defmodule CableClubWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: Routes.user_session_path(conn, :new))
+      |> redirect(external: CableClubWeb.OAuth.Discord.authorization_url())
       |> halt()
     end
   end

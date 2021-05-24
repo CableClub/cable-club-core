@@ -4,13 +4,13 @@ defmodule CableClub.AccountsFixtures do
   entities via the `CableClub.Accounts` context.
   """
 
+  def unique_discord_id, do: System.unique_integer([:positive])
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
-  def valid_user_password, do: "hello world!"
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
-      email: unique_user_email(),
-      password: valid_user_password()
+      "id" => unique_discord_id(),
+      "email" => unique_user_email()
     })
   end
 
@@ -18,7 +18,7 @@ defmodule CableClub.AccountsFixtures do
     {:ok, user} =
       attrs
       |> valid_user_attributes()
-      |> CableClub.Accounts.register_user()
+      |> CableClub.Accounts.oauth_discord_register_user()
 
     user
   end

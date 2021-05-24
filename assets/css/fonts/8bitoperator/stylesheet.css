@@ -1,0 +1,8 @@
+@font-face {
+    font-family: '8bitoperatorregular';
+    src: url('./8bitoperator-webfont.woff2') format('woff2'),
+         url('./8bitoperator-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}

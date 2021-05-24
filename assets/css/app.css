@@ -1,6 +1,4 @@
 /* This file is for your main application css. */
-@import "../node_modules/nprogress/nprogress.css";
-/* This file is for your main application css. */
 @tailwind base;
 
 @tailwind components;
@@ -58,7 +56,6 @@
   cursor: pointer;
 }
 
-
 /* Alerts and form errors */
 .alert {
   padding: 15px;
@@ -98,5 +95,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
+@import url(fonts/8bitoperator/stylesheet.css);
+body {
+  font-family: '8bitoperatorregular'
+}
 @tailwind utilities;

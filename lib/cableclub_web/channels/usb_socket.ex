@@ -3,6 +3,7 @@ defmodule CableClubWeb.USBSocket do
 
   ## Channels
   # channel "room:*", CableClubWeb.RoomChannel
+  channel "usb:v1", CableClubWeb.USBV1Channel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

@@ -17,14 +17,63 @@ defmodule ConeLink do
   end
 
   def handle_cast({:packet, <<packet::binary-8>>}, state) do
-    IO.inspect(packet, label: "data from bgb")
-    UART.write(state.uart, packet)
+    handle_bgb(packet, state)
+    :ok = UART.write(state.uart, packet)
     {:noreply, state}
   end
 
   def handle_info({:circuits_uart, _tty, data}, state) do
-    IO.inspect(data, label: "data from duino", base: :hex)
-    send(state.parent, {:handle_packet, data})
+    handle_uart(data, state)
     {:noreply, state}
   end
+
+  def handle_bgb(<<104, _::binary>> = packet, state) do
+    IO.puts("sync1 data from bgb")
+    :binpp.pprint(packet)
+    state
+  end
+
+  def handle_bgb(<<105, _::binary>> = packet, state) do
+    IO.puts("sync2 data from bgb")
+    :binpp.pprint(packet)
+    state
+  end
+
+  def handle_bgb(_, state) do
+    state
+  end
+
+  def handle_uart(<<>>, state) do
+    state
+  end
+
+  def handle_uart(<<packet::binary-8, rest::binary>>, state) do
+    do_handle_uart(packet, state)
+    handle_uart(rest, state)
+  end
+
+  def handle_uart(packet, state) do
+    IO.puts(packet)
+    state
+  end
+
+  def do_handle_uart(packet, state) do
+    log_uart(packet)
+    # :binpp.pprint(packet)
+
+    send(state.parent, {:handle_packet, packet})
+    state
+  end
+
+  def log_uart(<<104, _::binary>> = packet) do
+    IO.puts("sync1 from duino:")
+    :binpp.pprint(packet)
+  end
+
+  def log_uart(<<105, _::binary>> = packet) do
+    IO.puts("sync2 from duino:")
+    :binpp.pprint(packet)
+  end
+
+  def log_uart(_), do: :ok
 end

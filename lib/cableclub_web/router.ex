@@ -49,15 +49,6 @@ defmodule CableClubWeb.Router do
 
   scope "/", CableClubWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
-
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
   end
 
   scope "/", CableClubWeb do
@@ -65,16 +56,16 @@ defmodule CableClubWeb.Router do
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    live "/play", Pokemon.Gen1.TradeCenterLive, :index
+    live "/play/new", Pokemon.Gen1.TradeCenterLive, :new
+    live "/play/join", Pokemon.Gen1.TradeCenterLive, :join
   end
 
   scope "/", CableClubWeb do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :confirm
     get "/oauth/discord", OAuth.DiscordController, :oauth
     get "/oauth/discord/tos", OAuth.DiscordController, :tos
   end
