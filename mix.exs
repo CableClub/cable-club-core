@@ -64,7 +64,7 @@ defmodule CableClub.MixProject do
       {:hackney, "~> 1.17"},
       {:phx_gen_auth, "~> 0.7.0", only: :dev},
       {:tortoise, "~> 0.9.8"},
-      {:circuits_uart, "~> 1.4"},
+      {:circuits_uart, "~> 1.4", only: :dev},
       {:binpp, "~> 1.1"},
       {:phoenix_markdown, "~> 1.0"},
       {:earmark, "~> 1.4"},
