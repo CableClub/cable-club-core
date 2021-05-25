@@ -1,0 +1,25 @@
+<div class="p-4">
+  <table>
+    <tr>
+      <th> Pokemon </th>
+      <th> </th>
+      <th> Type </th>
+      <th> Level </th>
+      <th> Attack / Defense / Speed / Special </th>
+    </tr>
+    <tr>
+      <td> <img src="<%= Routes.static_path(@conn, "/images/pokemon/gen1/#{String.downcase(to_string(@trade.player1_pokemon.species))}.png") %>"> </td>
+
+      <td> <%= @trade.player1_pokemon.species %> </td>
+      <td> <%= @trade.player1_pokemon.type1 %> / <%= @trade.player1_pokemon.type2 %> </td>
+      <td> <%= @trade.player1_pokemon.level2 %> (<%= @trade.player1_pokemon.experience %> exp) </td>
+      <td>
+        <%= @trade.player1_pokemon.attack %> /
+        <%= @trade.player1_pokemon.defense %> /
+        <%= @trade.player1_pokemon.speed %> /
+        <%= @trade.player1_pokemon.special %>
+      </td>
+    </tr>
+  </table>
+
+</div>

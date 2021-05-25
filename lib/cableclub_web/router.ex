@@ -22,6 +22,7 @@ defmodule CableClubWeb.Router do
 
     live "/", PageLive, :index
     get "/docs/pokemon/gen1/link", DocsController, :pokemon_gen1_link
+    resources "/pokemon/gen1/trades/", Pokemon.Gen1.TradeController, only: [:show]
   end
 
   # Other scopes may use custom stacks.
