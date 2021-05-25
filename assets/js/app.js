@@ -15,14 +15,9 @@ import "../css/app.css"
 import "phoenix_html"
 import "@ryangjchandler/alpine-clipboard/src/index.ie11.js"
 import 'alpinejs'
-import {Socket} from "phoenix"
+import { Socket } from "phoenix"
 import topbar from "topbar"
-import {LiveSocket} from "phoenix_live_view"
-// import hljs from 'highlight.js/lib/core'
-// window["hljs"] = hljs
-// import rgbds from 'highlightjs-rgbasm/dist/rgbasm.min.js'
-// hljs.registerLanguage('rgbds', rgbds)
-// import 'highlightjs/styles/github.css'
+import { LiveSocket } from "phoenix_live_view"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let Hooks = {}
@@ -46,7 +41,7 @@ let liveSocket = new LiveSocket('/live', Socket, {
 })
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" })
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 

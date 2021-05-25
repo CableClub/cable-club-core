@@ -45,9 +45,6 @@ defmodule CableClubWeb.TestUSBClient do
 
   @impl Slipstream
   def handle_join(@topic, _join_response, socket) do
-    # an asynchronous push with no reply:
-    # push(socket, @topic, "hello", %{})
-
     {:ok, socket}
   end
 

@@ -8,8 +8,8 @@ defmodule CableClubWeb.OAuth.DiscordController do
   end
 
   def oauth(conn, %{"code" => code} = params) do
-    Logger.info("Discord Oauth: #{inspect(params)}")
-    client = OAuth.exchange_code(code)
+    Logger.info("Discord OAuth: #{inspect(params)}")
+    client = OAuth.exchange_code(OAuth.redirect_uri(), code)
 
     with {:ok, me} <- OAuth.me(client),
          _ <- Logger.warn("oauth result: #{inspect(me)}") do
@@ -37,5 +37,31 @@ defmodule CableClubWeb.OAuth.DiscordController do
     conn
     |> put_flash(:error, "#{error} #{reason}")
     |> redirect(to: Routes.page_path(conn, :index))
+  end
+
+  def oauth_link(conn, %{"code" => code} = params) do
+    Logger.info("Discord OAuth: #{inspect(params)}")
+    client = OAuth.exchange_code(OAuth.link_redirect_uri(), code)
+
+    with {:ok, me} <- OAuth.me(client),
+         _ <- Logger.warn("oauth result: #{inspect(me)}") do
+      case CableClub.Accounts.get_user_by_discord_id(me["id"]) do
+        nil ->
+          {:ok, user} = CableClub.Accounts.oauth_discord_register_user(me)
+          token = CableClub.Accounts.generate_user_session_token(user) |> Base.url_encode64()
+          Logger.info("Created user from discord: #{inspect(user)}")
+
+          conn
+          |> redirect(external: "cableclub://index?token=#{token}")
+
+        user ->
+          Logger.info("Logged in #{inspect(user)}")
+          {:ok, user} = CableClub.Accounts.update_discord_oauth_info(user, me)
+          token = CableClub.Accounts.generate_user_session_token(user) |> Base.url_encode64()
+
+          conn
+          |> redirect(external: "cableclub://index?token=#{token}")
+      end
+    end
   end
 end

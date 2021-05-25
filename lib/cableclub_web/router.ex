@@ -56,10 +56,6 @@ defmodule CableClubWeb.Router do
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
-
-    live "/play", Pokemon.Gen1.TradeCenterLive, :index
-    live "/play/new", Pokemon.Gen1.TradeCenterLive, :new
-    live "/play/join", Pokemon.Gen1.TradeCenterLive, :join
   end
 
   scope "/", CableClubWeb do
@@ -67,6 +63,7 @@ defmodule CableClubWeb.Router do
 
     delete "/users/log_out", UserSessionController, :delete
     get "/oauth/discord", OAuth.DiscordController, :oauth
+    get "/oauth/discord/link", OAuth.DiscordController, :oauth_link
     get "/oauth/discord/tos", OAuth.DiscordController, :tos
   end
 end

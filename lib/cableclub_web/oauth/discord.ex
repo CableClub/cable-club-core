@@ -15,12 +15,39 @@ defmodule CableClubWeb.OAuth.Discord do
   plug Tesla.Middleware.FormUrlencoded
   plug Tesla.Middleware.FollowRedirects
 
+  def redirect_uri, do: @url
+  def link_redirect_uri, do: "http://localhost:4000/oauth/discord/link"
+
   def authorization_url(state \\ "") do
     query =
       URI.encode_query(%{
         "client_id" => @client_id,
         "prompt" => "consent",
         "redirect_uri" => @url,
+        "response_type" => "code",
+        "scope" => "identify email",
+        "state" => state
+      })
+
+    %URI{
+      authority: "discord.com",
+      fragment: nil,
+      host: "discord.com",
+      path: "/api/oauth2/authorize",
+      port: 443,
+      query: query,
+      scheme: "https",
+      userinfo: nil
+    }
+    |> to_string()
+  end
+
+  def link_authorization_url(state \\ "") do
+    query =
+      URI.encode_query(%{
+        "client_id" => @client_id,
+        "prompt" => "consent",
+        "redirect_uri" => link_redirect_uri(),
         "response_type" => "code",
         "scope" => "identify email",
         "state" => state
@@ -48,15 +75,15 @@ defmodule CableClubWeb.OAuth.Discord do
     Tesla.client(middleware)
   end
 
-  def exchange_code(code) do
+  def exchange_code(redirect_uri, code) do
     response =
       post!("/oauth2/token", %{
         client_id: @client_id,
         client_secret: @client_secret,
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: @url,
-        scope: "identify email guilds"
+        redirect_uri: redirect_uri,
+        scope: "identify email"
       })
 
     Logger.info("exchange_code: #{code} => #{inspect(response)}")
