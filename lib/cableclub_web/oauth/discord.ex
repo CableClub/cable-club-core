@@ -75,6 +75,8 @@ defmodule CableClubWeb.OAuth.Discord do
     Tesla.client(middleware)
   end
 
+  # spec from Tesla is wrong
+  @dialyzer {:nowarn_function, {:exchange_code, 2}}
   def exchange_code(redirect_uri, code) do
     response =
       post!("/oauth2/token", %{
@@ -99,6 +101,7 @@ defmodule CableClubWeb.OAuth.Discord do
     end
   end
 
+  @dialyzer {:nowarn_function, {:refresh_token, 1}}
   def refresh_token(%{"refresh_token" => refresh_token} = body) do
     response =
       post!(client(body), "/oauth2/token", %{
