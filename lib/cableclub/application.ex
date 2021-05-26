@@ -13,6 +13,8 @@ defmodule CableClub.Application do
       CableClubWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: CableClub.PubSub},
+      # Start Session system
+      CableClub.Pokemon.Gen1.SessionSupervisor,
       # Start the Endpoint (http/https)
       CableClubWeb.Endpoint
       # Start a worker by calling: CableClub.Worker.start_link(arg)

@@ -10,7 +10,7 @@ defmodule CableClubWeb.Endpoint do
     signing_salt: "HQu+Flmt"
   ]
 
-  socket "/usb", CableClubWeb.USBSocket,
+  socket "/pokemon/gen1", CableClubWeb.Pokemon.Gen1.Socket,
     websocket: true,
     longpoll: false
 
