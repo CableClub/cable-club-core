@@ -10,7 +10,7 @@ defmodule CableClub.Pokemon.Gen1.SessionSupervisor do
   def start_child() do
     DynamicSupervisor.start_child(
       __MODULE__,
-      {CableClub.Pokemon.Gen1.Session, [:pokemon_gen1_session_registry]}
+      {CableClub.Pokemon.Gen1.Session, :pokemon_gen1_session_registry}
     )
   end
 
@@ -24,7 +24,7 @@ defmodule CableClub.Pokemon.Gen1.SessionSupervisor do
 
   @impl DynamicSupervisor
   def init(_arg) do
-    _ = :ets.new(:pokemon_gen1_session_registry, [:public, :named_table])
+    _ = :ets.new(:pokemon_gen1_session_registry, [:public, :named_table, :set])
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 end

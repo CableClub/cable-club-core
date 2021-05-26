@@ -55,17 +55,17 @@ defmodule CableClub.Pokemon.Gen1.Session do
   end
 
   def handle_call(:join, {pid, _tag}, %{player2: nil} = state) do
-    send(state.player1, {__MODULE__, "session.status", %{ready: true}})
-    send(pid, {__MODULE__, "session.status", %{ready: true}})
+    send(state.player1, {__MODULE__, "session.status", %{"ready" => true}})
+    send(pid, {__MODULE__, "session.status", %{"ready" => true}})
     {:reply, {:ok, self()}, %{state | player2: pid}}
-  end
-
-  def handle_call(_call, _, %{player1: p1, player2: p2} = state) when is_nil(p1) or is_nil(p2) do
-    {:reply, {:error, "session not ready"}, state}
   end
 
   def handle_call(:code, _from, state) do
     {:reply, state.code, state}
+  end
+
+  def handle_call(_call, _, %{player1: p1, player2: p2} = state) when is_nil(p1) or is_nil(p2) do
+    {:reply, {:error, "session not ready"}, state}
   end
 
   def handle_call({:start, type}, _from, %{type: nil} = state) do
@@ -81,8 +81,8 @@ defmodule CableClub.Pokemon.Gen1.Session do
   end
 
   def handle_call(:stop, _, state) do
-    send(state.player1, {__MODULE__, "session.status", %{ready: false}})
-    send(state.player2, {__MODULE__, "session.status", %{ready: false}})
+    send(state.player1, {__MODULE__, "session.status", %{"ready" => false}})
+    send(state.player2, {__MODULE__, "session.status", %{"ready" => false}})
     {:reply, :ok, %{state | type: nil}}
   end
 
@@ -91,12 +91,12 @@ defmodule CableClub.Pokemon.Gen1.Session do
   end
 
   def handle_call({:transfer, data}, {player1, _}, %{player1: player1} = state) do
-    send(state.player2, {__MODULE__, :transfer, data})
+    send(state.player2, {__MODULE__, "session.transfer", %{"data" => data}})
     {:reply, :ok, state}
   end
 
   def handle_call({:transfer, data}, {player2, _}, %{player2: player2} = state) do
-    send(state.player1, {__MODULE__, :transfer, data})
+    send(state.player1, {__MODULE__, "session.transfer", %{"data" => data}})
     {:reply, :ok, state}
   end
 end

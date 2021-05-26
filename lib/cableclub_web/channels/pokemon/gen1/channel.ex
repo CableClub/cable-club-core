@@ -6,11 +6,11 @@ defmodule CableClubWeb.Pokemon.Gen1.Channel do
 
   * `session.create` or `session.join` to bridge two connections
   * `session.start` to sync two connections
-  * `transfer` bytes
+  * `session.transfer` bytes
   """
 
   use CableClubWeb, :channel
-  alias CableClub.Pokemon.Gen1.SessionManager
+  alias CableClub.Pokemon.Gen1.{SessionManager, Session}
 
   @impl true
   def join(_topic, _params, socket) do
@@ -65,7 +65,11 @@ defmodule CableClubWeb.Pokemon.Gen1.Channel do
     end
   end
 
-  def handle_in("transfer", %{"data" => data}, socket) when data in 0..0xFF do
+  def handle_in("session.transfer", %{"data" => _data}, %{assigns: %{session: nil}} = socket) do
+    {:reply, {:error, %{reason: "no session"}}, socket}
+  end
+
+  def handle_in("session.transfer", %{"data" => data}, socket) when data in 0..0xFF do
     case SessionManager.transfer(socket.assigns.session, data) do
       :ok ->
         {:reply, {:ok, %{}}, socket}
@@ -75,18 +79,18 @@ defmodule CableClubWeb.Pokemon.Gen1.Channel do
     end
   end
 
-  def handle_in("transfer", _, socket) do
+  def handle_in("session.transfer", _, socket) do
     {:reply, {:error, %{reason: "invalid data"}}, socket}
   end
 
   @impl true
-  def handle_info({SessionManager, :status, status}, socket) do
+  def handle_info({Session, "session.status", status}, socket) do
     push(socket, "session.status", status)
     {:noreply, socket}
   end
 
-  def handle_info({SessionManager, :transfer, data}, socket) do
-    push(socket, "transfer", %{data: data})
+  def handle_info({Session, "session.transfer", data}, socket) do
+    push(socket, "session.transfer", data)
     {:noreply, socket}
   end
 end
